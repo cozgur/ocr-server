@@ -9,18 +9,18 @@ UPLOAD_FOLDER = ROOT_DIR + '/static/uploads/'
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+main = Flask(__name__)
+main.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/')
+@main.route('/')
 def home_page():
     return render_template('index.html')
 
 
-@app.route('/upload', methods=['GET', 'POST'])
+@main.route('/upload', methods=['GET', 'POST'])
 def upload_page():
     if request.method == 'POST':
         # check if there is a file in the request
@@ -28,7 +28,8 @@ def upload_page():
             return render_template('upload.html', msg='No file selected')
 
         image = request.files['image']
-        image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
+        code = request.form['code']
+        image.save(os.path.join(main.config['UPLOAD_FOLDER'], image.filename))
         # if no file is selected
         if image.filename == '':
             return render_template('upload.html', msg='No file selected')
@@ -36,29 +37,26 @@ def upload_page():
         if image and allowed_file(image.filename):
 
             # filename = secure_filename(image.filename)
-            # image.save(os.path.join(app.config[UPLOAD_FOLDER], filename))
+            # image.save(os.path.join(main.config[UPLOAD_FOLDER], filename))
             #
             # extracted_text = pytesseract(filename)
             #
             # return extracted_text
 
             # call the OCR function on it
-            extracted_text = pytesseract(UPLOAD_FOLDER+image.filename)
+            extracted_text = pytesseract(UPLOAD_FOLDER+image.filename, code)
             #extract the text and display it
             # return render_template('upload.html',
             #                        msg='Successfully processed',
             #                        extracted_text=extracted_text,
             #                        img_src=UPLOAD_FOLDER + image.filename)
             print('extracted_text:   ' + extracted_text)
-            os.remove(UPLOAD_FOLDER+image.filename)
+            os.remove(UPLOAD_FOLDER + image.filename)
             return extracted_text
 
-
-
-            # return extracted_text
     elif request.method == 'GET':
         return render_template('upload.html')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    main.run()
