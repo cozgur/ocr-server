@@ -9,18 +9,18 @@ UPLOAD_FOLDER = ROOT_DIR + '/static/uploads/'
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
-main = Flask(__name__)
-main.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@main.route('/')
+@app.route('/')
 def home_page():
     return render_template('index.html')
 
 
-@main.route('/upload', methods=['GET', 'POST'])
+@app.route('/upload', methods=['GET', 'POST'])
 def upload_page():
     if request.method == 'POST':
         # check if there is a file in the request
@@ -29,7 +29,7 @@ def upload_page():
 
         image = request.files['image']
         code = request.form['code']
-        image.save(os.path.join(main.config['UPLOAD_FOLDER'], image.filename))
+        image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
         # if no file is selected
         if image.filename == '':
             return render_template('upload.html', msg='No file selected')
@@ -58,5 +58,5 @@ def upload_page():
         return render_template('upload.html')
 
 
-if __name__ == '__main__':
-    main.run()
+if __name__ == '__app__':
+    app.run()

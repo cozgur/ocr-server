@@ -1,4 +1,4 @@
 import os
-from main import main
+from app import app
 os.environ["SERVER_TYPE"] = 'MAIN_SERVER'
-main.run()
+app.run()
