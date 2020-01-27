@@ -1,6 +1,7 @@
 Flask
 Pillow
 pytesseract
+gunicorn
 Click==7.0
 itsdangerous==1.1.0
 Jinja2==2.10.3
