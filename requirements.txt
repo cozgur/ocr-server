@@ -1,3 +1,4 @@
+Flask
 Pillow
 pytesseract
 Click==7.0
@@ -6,5 +7,5 @@ Jinja2==2.10.3
 langdetect==1.0.7
 MarkupSafe==1.1.1
 protobuf==3.11.1
-six==1.13.0
+six==1.14.0
 Werkzeug==0.16.0
