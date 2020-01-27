@@ -7,8 +7,8 @@ def pytesseract(filename, code):
     try:
         text = tess.image_to_string(Image.open(filename))
         print("successfully detected")
-    except:
+    except IOError as e:
         text = ''
-        print("exception is thrown")
+        print("exception is thrown:\t " + e)
 
     return text
