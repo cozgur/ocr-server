@@ -29,6 +29,7 @@ def upload_page():
 
         image = request.files['image']
         code = request.form['code']
+        print('Code has got as:\t' + code)
         image.save(os.path.join(app.config['UPLOAD_FOLDER'], image.filename))
         # if no file is selected
         if image.filename == '':
